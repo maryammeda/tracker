@@ -1,4 +1,5 @@
 import uuid
+from datetime import date
 
 from pydantic import EmailStr
 from sqlmodel import Field, Relationship, SQLModel
@@ -39,7 +40,7 @@ class UpdatePassword(SQLModel):
     new_password: str = Field(min_length=8, max_length=128)
 
 
-# Database model, database table inferred from class name
+
 class User(UserBase, table=True):
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     hashed_password: str
@@ -47,7 +48,7 @@ class User(UserBase, table=True):
     assignments: list["Assignment"] = Relationship(back_populates="owner", cascade_delete=True)
 
 
-# Properties to return via API, id is always required
+
 class UserPublic(UserBase):
     id: uuid.UUID
 
