@@ -92,6 +92,38 @@ class ItemsPublic(SQLModel):
     count: int
 
 
+# Base Model
+class AssignmentBase(SQLModel):
+    subject: str = Field(min_length=1, max_length=255)
+    title: str = Field(min_length=1, max_length=255)
+    due_date: date
+    priority: str = Field(min_length=1, max_length=50)
+    is_completed: bool = False
+
+#Creation Model - what user sends to create one
+class AssignmentCreate(AssignmentBase):
+    pass
+
+# Update Model
+class AssignmentUpdate(AssignmentBase):
+    subject: str | None = Field(default=None, min_length=1, max_length=255)  # type: ignore
+    title: str | None = Field(default=None, min_length=1, max_length=255)  # type: ignore
+    due_date: date | None = None
+    priority: str | None = Field(default=None, min_length=1, max_length=50)  # type: ignore
+    is_completed: bool | None = None
+
+# Table Model
+class Assignment(AssignmentBase, table=True):
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+    
+# Public Model
+class AssignmentPublic(AssignmentBase):
+    id: uuid.UUID
+# List Model
+class AssignmentsPublic(SQLModel):
+    data: list[AssignmentPublic]
+    count: int
+
 # Generic message
 class Message(SQLModel):
     message: str
