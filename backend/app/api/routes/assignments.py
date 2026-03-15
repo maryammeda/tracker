@@ -13,7 +13,7 @@ from app.models import (
     AssignmentUpdate,
     Message,
 )
-from app.utils.cache import delete_cache, get_cache, set_cache
+from app.core.cache import delete_cache, get_cache, set_cache
 
 router = APIRouter(prefix="/assignments", tags=["assignments"])
 
